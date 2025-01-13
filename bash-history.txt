@@ -1,0 +1,1029 @@
+passwd
+su -
+python3 -V
+apt-get upgrade
+sudo apt-get upgrade
+python -V
+python3 -V
+sudo shutdown -h 0
+sudo ./wiringOP/gpio/gpio 
+sudo ./wiringOP/gpio/gpio readall
+df -h
+mkdir wiringOP
+cd wiringOP
+cd ..
+rmdir wiringOP
+git clone https://github.com/orangepi-xunlong/wiringOP
+cd wiringOP/
+sudo ./build clean
+sudo ./build
+ll
+./gpio readall
+find . -type f gpio
+find . -type f -name gpio
+./gpio/gpio readall
+sudo ./gpio/gpio readall
+python3 -V
+sudo pip install --upgrade OPi.GPIO
+sudo apt install pip
+sudo pip install --upgrade OPi.GPIO
+cd ..
+pwd
+sudo usermod -aG gpio orangepi
+vi test.py
+ll /usr/bin/env
+ll test.py
+chmod u+x test.py 
+./test.py 
+sudo ./test.py 
+vi test.py
+./test.py 
+./wiringOP/gpio/gpio readall
+sudo ./wiringOP/gpio/gpio readall
+vi ./test.py 
+./test.py 
+vi ./test.py 
+./test.py 
+vi ./test.py 
+./test.py 
+vi ./test.py 
+./test.py 
+vi ./test.py 
+./test.py 
+sudo ./test.py 
+vi ./test.py 
+sudo ./test.py 
+vi ./test.py 
+sudo ./test.py 
+cd /sys/class/gpio
+sudo su 
+cd
+sudo pip install OrangePi.GPIO
+sudo poweroff
+sudo su -
+vi test.py 
+sudo apt-get install python3-dev
+sudo pip install OrangePi.GPIO
+sudo ./test.py 
+view /usr/local/lib/python3.9/dist-packages/OPi/sysfs.py
+grep class /usr/local/lib/python3.9/dist-packages/OPi/sysfs.py
+#/sys/class/gpio/gpio{0}/direction
+sudo su
+sudo wiringOP/gpio/gpio readall
+ll /usr/include/python3.9
+sudo ./test.py 
+gpio
+gpio mode 1 out
+gpio mode 0 out
+gpio write 0 on
+gpio write 0 off
+gpio write 0 on
+gpio write 1 on
+gpio write 1 off
+gpio write 0 off
+vi test.py 
+./test.py 
+vi test.py 
+./test.py 
+vi test.py 
+./test.py 
+vi test.py 
+./test.py 
+vi test.py 
+./test.py 
+vi test.py 
+./test.py 
+vi test.py 
+./test.py 
+vi test.py 
+./test.py 
+vi test.py 
+./test.py 
+vi test.py 
+sudo wiringOP/gpio/gpio readall
+wiringOP/gpio/gpio readall
+gpio readall
+ll wiringOP/gpio/
+ll wiringOP/
+find wiringOP/ -type f -name lsgpio
+gpioinfo 
+sudo gpioinfo 
+ll /sys/class/gpio_sw/
+ll /sys/class/gpi*
+ll -d /sys/class/gpi*
+ll -d /sys/class/gpio
+/
+ll /sys/class/gpio
+id
+vi demo-blink.py 
+./demo-blink.py 
+gpio write 6 off
+gpio write 7 off
+gpio readall
+gpio write 8 off
+vi demo-blink.py 
+./demo-blink.py 
+vi demo-blink.py 
+./demo-blink.py 
+vi demo-blink.py 
+./demo-blink.py 
+vi demo-blink.py 
+./demo-blink.py 
+vi demo-blink.py 
+./demo-blink.py 
+gpio readall
+vi demo-blink.py 
+./demo-blink.py 
+gpio readall
+gpio write 9 off
+gpio readall
+vi demo-blink.py 
+./demo-blink.py 
+gpio readall
+gpio write 6 off
+vi demo-blink.py 
+./demo-blink.py 
+vi demo-blink.py 
+./demo-blink.py 
+gpio readall
+vi demo-blink.py 
+./demo-blink.py 
+vi demo-blink.py 
+./demo-blink.py 
+vi demo-blink.py 
+./demo-blink.py 
+vi demo-blink.py 
+./demo-blink.py 
+vi demo-blink.py 
+./demo-blink.py 
+vi demo-blink.py 
+./demo-blink.py 
+gpio readall
+vi demo-blink.py 
+./demo-blink.py 
+vi demo-blink.py 
+./demo-blink.py 
+vi demo-blink.py 
+./demo-blink.py 
+top
+ps aux |grep ssh
+pip install gpiod
+gpio readall
+vi demo-blink.py
+./demo-blink.py
+chmod u+x ./demo-blink.py
+./demo-blink.py
+vi demo-blink.py
+pip3 install gpiod
+./demo-blink.py
+vi demo-blink.py
+./demo-blink.py
+sudo ./demo-blink.py
+vi demo-blink.py
+LINK_SYSTEM_LIBGPIOD=1 pip install gpiod
+pip uninstall gpiod
+LINK_SYSTEM_LIBGPIOD=1 pip install gpiod
+python -V
+python3
+sudo ./demo-blink.py
+sudo python3 ./demo-blink.py
+./demo-blink.py
+ /dev/gpiochip0
+./demo-blink.py
+vi ./demo-blink.py
+./demo-blink.py
+vi ./demo-blink.py
+./demo-blink.py
+vi ./demo-blink.py
+./demo-blink.py
+vi ./demo-blink.py
+gpio write 0 off
+gpio write 1 off
+vi ./demo-blink.py
+./demo-blink.py
+gpio readall
+gpio write 0 off
+gpio readall
+vi ./demo-blink.py
+./demo-blink.py
+gpio readall
+gpio write 2 off
+gpio readall
+vi ./demo-blink.py
+./demo-blink.py
+vi ./demo-blink.py
+gpio write 2 off
+./demo-blink.py
+vi test.py 
+./test.py 
+vi demo-blink.py 
+./demo-blink.py 
+#gpio write 2 off
+vi demo-blink.py 
+#gpio write 2 off
+./demo-blink.py 
+gpio write 7 off
+sudo reboot
+vi demo-blink.py 
+ll /boot/dtb/allwinner/overlay/
+ll /boot/dtb/allwinner/overlay/*gpio*
+gpio readall
+ll -tr
+vi demo-blink.py 
+cp demo-blink.py demo-echo.py
+vi demo-echo.py
+gpio mode 69 in
+gpio readall
+gpio write 69 0
+gpio readall
+gpio mode 69 out
+gpio readall
+gpio write 69 0
+gpio readall
+gpio reset
+gpio write 69 off
+gpio readall
+gpio mode 69 out
+gpio readall
+ll -tr
+./demo-echo.py 
+sudo ./demo-echo.py 
+vi demo-echo.py
+./demo-echo.py
+sudo ./demo-echo.py
+vi demo-echo.py
+./demo-echo.py
+sudo ./demo-echo.py
+vi demo-echo.py
+sudo ./demo-echo.py
+cat demo-echo.py 
+./demo-echo.py 
+sudo ./demo-echo.py 
+gpio readall
+gpio mode 69 in
+gpio readall
+gpio mode 72 in
+gpio readall
+gpio mode 229 in
+gpio readall
+vi ./demo-echo.py 
+visudo
+./demo-echo.py 
+sudo -l
+./demo-echo.py 
+sudo -l
+pwd
+sudo -l
+./demo-echo.py 
+sudo ./demo-echo.py 
+mv demo-echo.py demo-trg.py
+cp demo-trg.py demo-echo.py
+vi demo-echo.py
+sudo ./demo-trg.py 
+pip install gpiodmonitor
+vi demo-mon.py
+./demo-mon.py
+ll./demo-mon.py
+ll ./demo-mon.py
+vi demo-mon.py
+chmod u+x ./demo-mon.py
+./demo-mon.py
+pip list
+less /home/orangepi/.local/lib/python3.9/site-packages/gpiodmonitor/__init__.py
+ll /home/orangepi/.local/lib/python3.9/site-packages/gpiodmonitor/__init__.py
+ll /home/orangepi/.local/lib/python3.9/site-packages/gpiodmonitor/
+less /home/orangepi/.local/lib/python3.9/site-packages/gpiodmonitor/gpiodmonitor.py 
+vi ./demo-mon.py
+./demo-mon.py
+sudo ./demo-mon.py
+ll /dev/gpiochip0
+./demo-mon.py
+sudo ./demo-mon.py
+./demo-mon.py
+python3
+less /home/orangepi/.local/lib/python3.9/site-packages/gpiod/__init__.py
+ll /home/orangepi/.local/lib/python3.9/site-packages/gpiod/__init__.py
+pip list
+pip uninstall gpiod
+sudo ./demo-echo.py 
+./demo-echo.py 
+sudo ./demo-echo.py 
+pip list
+python
+python3
+less /home/orangepi/.local/lib/python3.9/site-packages/gpiodmonitor/gpiodmonitor.py 
+less demo-trg.py 
+less /home/orangepi/.local/lib/python3.9/site-packages/gpiod/chip.py
+less /home/orangepi/.local/lib/python3.9/site-packages/gpiodmonitor/gpiodmonitor.py 
+vi /home/orangepi/.local/lib/python3.9/site-packages/gpiodmonitor/gpiodmonitor.py 
+less /home/orangepi/.local/lib/python3.9/site-packages/gpiod/chip.py
+vi /home/orangepi/.local/lib/python3.9/site-packages/gpiodmonitor/gpiodmonitor.py 
+python3 -m pip install -U --user pip gpiod
+ll -tr
+./demo-mon.py 
+vi /home/orangepi/.local/lib/python3.9/site-packages/gpiodmonitor/gpiodmonitor.py
+python3
+sudo apt install python3-dev
+python3
+ll /home/orangepi/.local/lib/python3.9/site-packages/gpiod
+less /home/orangepi/.local/lib/python3.9/site-packages/gpiod/edge_event.py
+grep -l EdgeEvent /home/orangepi/.local/lib/python3.9/site-packages/gpiod/*.py
+less /home/orangepi/.local/lib/python3.9/site-packages/gpiod/line_request.py
+grep -l LineReq /home/orangepi/.local/lib/python3.9/site-packages/gpiod/*.py
+less /home/orangepi/.local/lib/python3.9/site-packages/gpiod/chip.py
+ll
+./demo-trg.py
+python
+python3
+./demo-trg.py
+grep -R  request_lines /home/orangepi/.local/lib/python3.9/site-packages/gpiod/*
+grep -R  LeneSettings /home/orangepi/.local/lib/python3.9/site-packages/gpiod/*
+grep -R  LineSettings /home/orangepi/.local/lib/python3.9/site-packages/gpiod/*
+./demo-trg.py
+python3
+./demo-trg.py
+echo $((19825182750953-19825182354829))
+echo $((19825082209839-19825081786715))
+echo $(( (19825082209839-19825081786715)/1000 ))
+echo $(( (19825082209839-19825081786715)/1000/58 ))
+./demo-trg.py
+echo $(( (19976156041785-19976155401245)/1000/58 ))
+./demo-trg.py
+echo $(( (20021453953789-20021451850003)/1000/58 ))
+./demo-trg.py
+echo $(( (20078236383506-20078233705596)/1000/58 ))
+python3
+./demo-trg.py
+ll -tr
+ll -tr
+rm :\:q 
+rm \:q 
+vi watch_line_rising.py 
+./watch_line_rising.py 
+vi watch_line_rising.py 
+ll watch_line_rising.py 
+chmod u+x
+chmod u+x watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+less ./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+less demo-trg.py 
+./watch_line_rising.py 
+ll /dev/gp*
+./watch_line_rising.py 
+less ./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+vi ./watch_line_rising.py 
+./watch_line_rising.py 
+./demo-trg.py 
+ll -tr
+wget https://raw.githubusercontent.com/brgl/libgpiod/master/bindings/python/examples/watch_multiple_line_values.py
+ll -tr
+cp demo-mon.py demo-lines.py
+vi demo-lines.py
+rm demo-lines.py
+vi watch_line_rising.py 
+cp watch_line_rising.py demo_3d.py
+vi demo_3d.py 
+./demo_3d.py 
+vi demo_3d.py 
+./demo_3d.py 
+ll
+vi ./watch_line_rising.py
+./watch_line_rising.py
+ll -tr
+vi demo_3d.py
+./demo_3d.py
+vi demo_3d.py
+./demo_3d.py
+vi demo_3d.py
+./demo_3d.py
+vi ./demo-trg.py 
+./demo-trg.py 
+tail watch_line_rising.py 
+vi watch_line_rising.py 
+./demo-trg.py 
+tail watch_line_rising.py 
+grep enum *py
+./demo-trg.py 
+tail watch_line_rising.py 
+./demo-trg.py 
+tail watch_line_rising.py 
+./demo-trg.py 
+ll
+vi watch_line_rising.py 
+./watch_line_rising.py 
+ll -tr
+vi demo_3d.py 
+./demo_3d.py 
+vi watch_line_rising.py 
+./watch_line_rising.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi watch_line_rising.py 
+./watch_line_rising.py 
+./demo_3d.py 
+vi watch_line_rising.py 
+./watch_line_rising.py 
+./demo_3d.py 
+./demo-trg.py 
+vi ./demo-trg.py 
+./demo-trg.py 
+vi ./demo-trg.py 
+./demo-trg.py 
+vi ./demo-trg.py 
+./demo-trg.py 
+vi ./demo-trg.py 
+./demo-trg.py 
+vi ./demo-trg.py 
+./demo-trg.py 
+vi ./demo-trg.py 
+./demo-trg.py 
+vi ./demo-trg.py 
+./demo-trg.py 
+vi ./demo-trg.py 
+./demo-trg.py 
+vi ./demo-trg.py 
+./demo-trg.py 
+less ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+./demo-trg.py 
+ls -al /sys/class/gpio
+ll /dev/gpiochip*
+./demo_3d.py 
+./demo-trg.py 
+head demo_3d.py 
+less demo_3d.py 
+grep get_line *.py
+less demo-echo.py
+./demo-echo.py
+less demo_3d.py 
+ll /dev/gpio*
+less demo_3d.py 
+vi demo_3d.py 
+less demo_3d.py 
+./ruler3d.py 
+less demo_3d.py 
+./ruler3d.py 
+less demo_3d.py 
+./ruler3d.py 
+less demo_3d.py 
+./ruler3d.py 
+less demo_3d.py 
+./ruler3d.py 
+less demo_3d.py 
+./ruler3d.py 
+ll /dev/gpiochip*
+./demo_3d.py 
+vi ./demo_3d.py 
+./demo_3d.py 
+vi ./demo_3d.py 
+vi ruler3d.py
+cp ruler3d.py ruler1d.py
+vi ruler3d.py
+./ruler3d.py
+ll ./ruler3d.py
+chmod u+x ./ruler3d.py
+ll ./ruler3d.py
+./ruler3d.py
+vi ruler3d.py
+./ruler3d.py
+vi ruler3d.py
+./ruler3d.py
+mv ./ruler3d.py ruler3d-NO-get_line.py 
+vi ruler3d.py
+./ruler3d.py
+chmod u+x ./ruler3d.py
+vi ruler3d.py
+./ruler3d.py
+vi ./ruler3d.py
+./ruler3d.py
+vi ./ruler3d.py
+./ruler3d.py
+vi ./ruler3d.py
+./ruler3d.py
+vi ./ruler3d.py
+./ruler3d.py
+vi ./ruler3d.py
+./ruler3d.py
+vi ./ruler3d.py
+./ruler3d.py
+vi ./ruler3d.py
+./ruler3d.py
+vi ./ruler3d.py
+ll
+./demo-trg.py 
+vi ./ruler3d.py
+./demo-trg.py 
+vi ./ruler3d.py
+./demo-trg.py 
+vi ./ruler3d.py
+ll
+mkdir ruler-3d
+mv *.py ./ruler-3d/
+git
+git config --list --show-origin
+git config --global user.name "Vladimir Scherbo"
+git config --global user.email vscherbo@gmail.com
+git config --list
+ll
+mv ruler-3d r3d
+mkdir ruler-3d 
+cd ruler-3d
+git init
+cd ..
+rm -rf ruler-3d/
+mkdir ruler-3d 
+cd ruler-3d
+git config --global init.defaultBranch main
+git init
+cp ../r3d/* .
+vi .gitignore
+ll
+git status
+git add *
+git status
+git add .gitignore 
+git commit -m 'initial'
+git remote -v
+git remote add boxscan3d-n-scale https://github.com/vscherbo/boxscan3d-n-scale
+git remote -v
+vi .git/config 
+git push origin main
+git push origin main -u
+git remote rm boxscan3d-n-scale
+git remote -v
+git remote add origin https://github.com/vscherbo/boxscan3d-n-scale
+git push origin main 
+git pull
+git pull origin main
+ll
+git config --global pull.rebase false
+git pull origin main
+ll
+#rm *.py
+ll ../r3d/
+rm *.py
+ll -a
+cp .gitignore ../
+mv .git ../_git
+git clone https://github.com/vscherbo/boxscan3d-n-scale
+ll -a
+mv boxscan3d-n-scale/ ../
+ll ~/boxscan3d-n-scale/
+ll ~/boxscan3d-n-scale/ -a
+mv .gitignore ~/boxscan3d-n-scale/
+cd ~/boxscan3d-n-scale/
+ll .git/
+ll .git/config 
+less .git/config 
+ll
+cp ~/r3d/*.py .
+ll
+git status
+git add dem*
+git add ru*
+git add wa*
+git status
+git add .gitignore
+git remote -v
+git push origin main 
+git status
+git push -m '1st ver'
+git commit -m '1st ver'
+git push origin main 
+vi .git-cred
+chmod 600 .git-cred
+ll ~/.ssh/
+ssh-keygen -t ecdsa
+git push origin main 
+ssh -T git@github.com
+git push origin main 
+vi .git/config 
+git push origin main 
+vi .git/config 
+git push origin main 
+ll
+vi ruler3d.py
+./ruler3d.py
+vi ruler3d.py
+./ruler3d.py
+git status
+git add ruler3d.py 
+git commit -m 'renamed lines to request'
+git push origin main 
+vi ruler3d.py
+./ruler3d.py
+vi ruler3d.py
+./ruler3d.py
+vi ruler3d.py
+./ruler3d.py
+vi ruler3d.py
+./ruler3d.py
+vi ruler3d.py
+./ruler3d.py
+vi ruler3d.py
+./ruler3d.py
+vi ruler3d.py
+pwd
+less ruler3d.py
+vi ruler3d.py
+./ruler3d.py
+vi ruler3d.py
+./ruler3d.py
+vi ruler3d.py
+./ruler3d.py
+vi ruler3d.py
+./ruler3d.py
+vi ruler3d.py
+git add ruler3d.py
+git commit -m 'Ruler3D callback method'
+git push origin main 
+ssh-keygen -h
+man ssh-keygen
+ll .ssh/
+cat .ssh/id_ecdsa.pub 
+pwd
+ll
+cd boxscan3d-n-scale/
+ll
+./demo-trg.py 
+less watch_multiple_line_values.py 
+less demo_3d.py 
+./demo-trg.py 
+./ruler3d.py 
+./demo-trg.py 
+./ruler3d.py 
+cd boxscan3d-n-scale/
+./demo-trg.py 
+less demo_3d.py 
+./demo-trg.py 
+cd boxscan3d-n-scale/
+ll
+./demo-trg.py 
+cd ..
+ll
+cd boxscan3d-n-scale/
+ll
+./ruler3d.py 
+vi ./ruler3d.py 
+less demo_3d.py 
+vi ruler3d.conf 
+less demo_3d.py 
+vi ruler3d.conf 
+./demo-trg.py 
+vi ruler3d.conf 
+./demo-trg.py 
+cd boxscan3d-n-scale/
+vi ruler3d.py 
+python watch_multiple_line_values.py
+python3 watch_multiple_line_values.py
+vi demo_3d.py 
+./demo_3d.py 
+vi ruler3d.py 
+ll
+vi requirements.txt
+ll requirements.txt
+vi requirements.txt
+pip list -v
+vi requirements.txt
+pip install -r requirements.txt
+vi ruler3d.py 
+vi ruler3d.conf
+vi ruler3d.py 
+./ruler3d.py 
+vi ruler3d.py 
+./ruler3d.py 
+vi ruler3d.py 
+./ruler3d.py 
+./ruler3d.py --conf=ruler3d.conf
+vi ruler3d.py 
+./ruler3d.py --conf=ruler3d.conf
+vi ruler3d.py 
+./ruler3d.py --conf=ruler3d.conf
+vi ruler3d.py 
+./ruler3d.py --conf=ruler3d.conf
+vi ruler3d.py 
+./ruler3d.py --conf=ruler3d.conf
+vi ruler3d.py 
+./ruler3d.py --conf=ruler3d.conf
+vi ruler3d.py 
+./ruler3d.py --conf=ruler3d.conf
+vi ruler3d.py 
+./ruler3d.py --conf=ruler3d.conf
+vi ruler3d.py 
+./ruler3d.py --conf=ruler3d.conf
+vi ruler3d.py 
+./ruler3d.py --conf=ruler3d.conf
+vi .git/config 
+git status
+git diff ruler3d.py
+git add requirements.txt 
+git commit -m 'requirements'
+git add ruler3d.py
+git commit -m 'LogApp; conf file'
+git push origin main 
+cd ..
+mv boxscan3d-n-scale ruler3d-n-scale
+sudo poweroff
+cd ruler3d-n-scale/
+less ruler3d.py
+cd ruler3d-n-scale/
+ll
+ll -tr
+git status
+cat ruler3d.conf 
+vi ruler3d.conf 
+ll -tr
+./ruler3d.py --conf=ruler3d.conf
+vi ruler1d.py 
+python3 ./ruler1d.py 
+vi ruler1d.py 
+python3 ./ruler1d.py 
+grep get_line *.py
+git rm ruler1d.py
+git rm ruler1d.py -f
+git status
+git commit -m 'No get_line method'
+vi ruler3d.py
+pip list --verbose
+vi requirements.txt 
+ll /home/orangepi/.local/lib/python3.9/site-packages/apps-0.1.dist-info/
+ll /home/orangepi/.local/lib/python3.9/site-packages/
+less /home/orangepi/.local/lib/python3.9/site-packages/log_app.py 
+vi ruler3d.py 
+vi requirements.txt 
+pip install -r requirements.txt
+vi requirements.txt 
+pip install -r requirements.txt
+mv log_app.py test_log_app.py 
+git status
+git diff ruler3d.py
+git add ruler3d.py ruler3d.conf
+git commit -m 'config parser with kwargs'
+git push origin main 
+vi ruler3d.py 
+git branch
+git status
+git diff ruler3d.py
+vi ruler3d.py 
+git diff ruler3d.py
+git add ruler3d.py
+git commit -m 'conf file; logging'
+git push origin main 
+sudo poweroff
+cd ruler3d-n-scale/
+vi ruler3d.conf 
+#./ruler3d.py --conf=ruler3d.conf
+ll ./ruler1*
+python ./ruler1d.py 
+python3 ./ruler1d.py 
+vi ./ruler1d.py 
+./ruler3d.py --conf=ruler3d.conf
+python
+python3
+./ruler3d.py --conf=ruler3d.conf
+ll /dev/gpiochip0
+./ruler3d.py --conf=ruler3d.conf
+ll
+mv log_app.py ruler3d-n-scale/
+cd ruler3d-n-scale/
+vi ruler3d.conf 
+./demo-trg.py 
+top
+./demo-trg.py 
+vi ruler3d.conf 
+./demo-trg.py 
+ll ruler-3d/
+rmdir ruler-3d/
+ll r3d
+ll ruler3d-n-scale/
+rm -rf r3d/
+cd ruler3d-n-scale/
+pyenv local
+pip -V
+python -V
+python3 -V
+git branch
+git checkout -b giga-try
+git pull
+git pull giga-try origin
+git pull origin giga-try
+ll
+git pull origin giga-try
+./ruler3d.py 
+./ruler3d.py --conf=ruler3d.conf
+vi ruler3d.py 
+git status
+git diff ruler3d.py
+git add ruler3d.py
+git commit -m 'right thread with event_listener_timeout; reformat dict self.line_def'
+git push origin main 
+git pull origin main
+vi ruler3d.py 
+git diff ruler3d.py 
+git add ruler3d.py 
+git commit -m 'using line_offset arg instead of event prop'
+git push origin main 
+vi ruler3d.py 
+git add ruler3d.py 
+git commit -m 'short logging line'
+git push origin main 
+vi ruler3d.py 
+git status
+git checkout giga-try
+vi ruler3d.py 
+git checkout main
+vi ruler3d.py 
+git add ruler3d.py 
+git commit -m 'no need timedelta'
+git push origin main 
+kk
+ll
+cp test_log_app.py log_app.py
+vi log_app.py
+vi ruler3d.py 
+vi log_app.py
+cat log_app.py
+mv log_app.py test_log_app.py 
+pip install -r requirements.txt
+pip install --upgrade -r requirements.txt
+pip install --upgrade --force-reinstall -r requirements.txt
+cd ruler3d-n-scale/
+vi ruler3d.conf 
+git status
+git add ruler3d.conf 
+git commit -m 'typo'
+git push origin giga-try
+git checkout main
+git merge giga-try
+git push origin main 
+./ruler3d.py --conf=ruler3d.conf
+git status
+git diff ruler3d.py
+git add ruler3d.py
+git commit -m 'ctrl-c is working'
+pwd
+git push origin main 
+./ruler3d.py 
+cd ruler3d-n-scale/
+./demo-trg.py 
+top
+./demo-trg.py 
+top
+./demo-trg.py 
+top
+./demo-trg.py 
+cd ruler3d-n-scale/
+vi ruler3d.conf 
+./ruler3d.py
+git pull
+cat ruler3d.conf 
+git pull
+git diff ruler3d.conf
+git checkout ruler3d.conf
+git pull
+vi ruler3d.py
+ip route
+cd ruler3d-n-scale/
+vi ruler3d.py 
+git diff ruler3d.py 
+git checkout ruler3d.py 
+sudo poweroff
