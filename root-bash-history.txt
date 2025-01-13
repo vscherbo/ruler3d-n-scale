@@ -1,0 +1,323 @@
+cat /etc/passwd
+passwd
+python -V
+apt-get upgrade
+apt-get update
+apt-get upgrade
+reboot
+ip addr
+ip addr
+ip addr
+sudo apt update
+sudo apt upgrade
+gpio
+apt install -y git
+echo 12 > export
+cat gpio12/direction 
+cat gpio12/value 
+visudo 
+ll /sys/class/gpio/
+ll /sys/class/gpio/gpio7/
+cat /sys/class/gpio/export
+cat /sys/kernel/debug/gpio
+cat 12 /sys/class/gpio/export
+echo 12 > /sys/class/gpio/export
+ll /sys/class/gpio/
+ll /sys/class/gpio/gpio12/
+ll /sys/class/gpio/gpio12/direction 
+view /usr/local/lib/python3.9/dist-packages/OPi/sysfs.py
+echo out > /sys/class/gpio/gpio12/direction 
+cat /sys/class/gpio/gpio7/value
+cat /sys/class/gpio/gpio12/value
+cat /sys/class/gpio/gpio12/direction 
+gpiofind "A1 IN"
+apt install gpiod
+gpiofind "A1 IN"
+gpiodetect
+gpiofind "SDA"
+gpiofind "SDA.3"
+gpioinfo gpiochip0
+gpioinfo gpiochip1
+gpio readall
+less /etc/group
+ll /sys/class/gpio/
+gpiodetect
+gpio readall
+echo 0 > /sys/class/gpio/export
+echo 1 > /sys/class/gpio/export
+gpiofind "SDA.3 OUT"
+cat /sys/kernel/debug/gpio
+gpiofind 
+man gpiofind 
+gpioinfo 
+ls /dev/gpiochip*
+ll /sys/class/gpio/
+ll /sys/class/gpio/gpiochip352
+ll /sys/class/gpio/gpiochip352/
+cat /sys/class/gpio/gpiochip352/label 
+uname -a
+lsgpio 
+apt install lsgpio 
+find / -type f -name lsgpio
+ll /sys/kernel/debug/
+ll /sys/kernel/debug/pinctrl/
+ll /sys/kernel/debug/pinctrl/300b000.pinctrl/
+cat /sys/kernel/debug/pinctrl/300b000.pinctrl/gpio-ranges
+orangepi-config
+clear
+orangepi-config
+addgroup --system gpio
+vi /etc/udev/rules.d/61-gpio-tools.rules
+usermod -a -G gpio orangepi
+reboot
+cat /sys/kernel/debug/gpio
+cat /etc/os-release 
+ll /proc/cpuinfo 
+less /proc/cpuinfo 
+locate dts
+mlocate dts
+find / -type f -name '*dts'
+vi /etc/udev/rules.d/61-gpio-tools.rules
+less /var/log/messages 
+less /var/log/messages 
+udevadm control --reload-rules && udevadm trigger
+less /var/log/messages 
+chgrp gpio /dev/gpiochip0
+LINK_SYSTEM_LIBGPIOD=1 pip3 install gpiod
+chmod g+w /dev/gpiochip0
+ll /dev/gpiochip0
+ls -l /dev/gpiochip0
+chmod g+r /dev/gpiochip0
+gpio readall
+ll /dev/gpiochip0
+vi .bashrc
+. .bashrc
+ll
+ll /dev/gpiochip0
+gpio readall
+ip addr
+find / -type f -name '*dts'
+man halt 
+halt -p
+less /boot/config-5.16.17-sun50iw9 
+ll /boot/*.dtb
+ls -l /boot/*.dtb
+vi .bashrc
+ls -a
+ls -ak
+ls -al
+ls -l .config/
+ls -l .local/
+ls -l .local/share/
+ls -l .local/share/nano/
+env |sort |less
+vi .bash_profile
+ls -l .bash_profile
+#1724067801
+ll /boot/dtb/
+#1724067805
+ll /boot/dtb/allwinner/
+#1724067814
+ll /boot/config-5.16.17-sun50iw9 
+#1724068907
+less /boot/*.txt
+#1724068930
+#sun50i-h616-orangepi-zero2-b.dtb
+#1724068937
+ls /boot/*.txt
+#1724068948
+uname -a
+#1724068966
+ll /boot/dtb/allwinner/overlay/
+#1724068970
+ll /boot/dtb/allwinner/
+#1724068978
+ll /boot/dtb/allwinner/sun50i-h616-orangepi-zero2.dtb
+#1724068981
+file /boot/dtb/allwinner/sun50i-h616-orangepi-zero2.dtb
+#1724068992
+less /proc/cpuinfo 
+#1724069041
+ls /boot/*.txt
+#1724069052
+ll /boot/orangepi*
+#1724069064
+less /boot/orangepiEnv.txt
+#1724069110
+armbian-add-overlay --help
+#1724069135
+find / -type f -name '*add-overlay*'
+#1724069182
+orangepi-add-overlay -h
+#1724069185
+orangepi-add-overlay --help
+#1724069187
+orangepi-add-overlay 
+#1724069361
+orangepi-add-overlay gpiomon
+#1724069367
+gpiomon
+#1724069373
+gpiodetect
+#1724069376
+gpiomon 0
+#1724070918
+gpiomon 0 69
+#1724070997
+gpiomon --help
+#1724071764
+gpio mode 69 out
+#1724071801
+gpio write 69 off
+#1724072400
+gpio mode 69 in
+#1724072447
+gpiomon --bias=pull-down 0 69
+#1724103541
+halt
+#1724254015
+gpiomon --bias=pull-down 0 69
+#1724254341
+halt
+#1724323218
+gpio readall
+#1724323325
+gpiomon --bias=pull-down 0 69
+#1724323613
+man gpiomon
+#1724323649
+gpiomon  0 69
+#1724324039
+visudo
+#1724324215
+update-alternatives --config editor
+#1724324234
+visudo
+#1724324471
+ll /etc/sudoers.d/
+#1724324475
+less /etc/sudoers.d/README 
+#1724324506
+less /etc/sudoers
+#1724324552
+visudo
+#1724324597
+gpiomon  0 69
+#1724324624
+gpiomon --bias=pull-down 0 69
+#1724328237
+apt install libgpiod2 python3-gpiod
+#1724328259
+apt install libgpiod2 python-gpiod
+#1724334869
+chgrp gpio /dev/gpiochip0
+#1724334963
+pip install gpiodmonitor
+#1724334980
+ll /dev/gpiochip0
+#1724334995
+chmod g+rw /dev/gpiochip0
+#1724337292
+python -V
+#1724337297
+python3
+#1724337412
+less /usr/local/lib/python3.9/dist-packages/gpiod/__init__.py
+#1724337441
+ll /usr/local/lib/python3.9/dist-packages/gpiod/__init__.py
+#1724337530
+pip uninstall gpiod
+#1724338511
+apt-get install libgpiod-dev python3-libgpiod
+#1724356901
+halt
+#1724395641
+apt install libgpiod2
+#1724395662
+apt install python3-gpiod
+#1724395773
+python3 -V
+#1724395849
+apt install libgpiod-dev python3-libgpiod
+#1724396077
+ll /dev/gp*
+#1724396095
+chgrp gpio /dev/gp*
+#1724396105
+chmod g+rw /dev/gp*
+#1724396107
+ll /dev/gp*
+#1724448264
+halt
+#1724679616
+chgrp gpio /dev/gp*
+#1724679624
+chmod g+rw /dev/gp*
+#1724679897
+gpiomon --bias=pull-down 0 69 75 79
+#1724681778
+halt
+#1724840864
+chgrp gpio /dev/gp*
+#1724840868
+chmod g+rw /dev/gp*
+#1724875768
+halt
+#1724928389
+chgrp gpio /dev/gp*
+#1724928392
+chmod g+rw /dev/gp*
+#1724961747
+halt
+#1725016787
+chgrp gpio /dev/gp*
+#1725016789
+chmod g+rw /dev/gp*
+#1725029613
+halt
+#1725352281
+ping ya.ru
+#1725373539
+halt
+#1725442803
+cd /etc/
+#1725442810
+cd udev/
+#1725442815
+ll -R
+#1725442829
+cd rules.d/
+#1725442834
+cat 10-wifi-disable-powermanagement.rules 
+#1725442932
+cat 61-gpio-tools.rules 
+#1725443222
+udevadm control --reload-rules --verbose
+#1725443225
+udevadm control --reload-rules 
+#1725443232
+udevadm trigger --verbose
+#1725443241
+vi 61-gpio-tools.rules 
+#1725443264
+udevadm control --reload-rules 
+#1725443271
+udevadm trigger --verbose
+#1725443547
+reboot
+#1725460307
+halt
+#1725533731
+apt install git-credential-manager
+#1725537668
+top
+#1725561364
+halt
+#1736771506
+ip addr
+#1736772466
+#apt install libgpiod2 python-gpiod
+#1736772469
+ip route
+#1736774157
+less .bash_history 
