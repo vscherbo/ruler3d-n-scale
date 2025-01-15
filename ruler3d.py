@@ -50,7 +50,8 @@ class GPIOEventHandler:
         # Request lines with event detection
         self.request = gpiod.request_lines(self.chip_name, consumer="watch-lines-edge",
                                            config={
-                                               self.line_numbers: gpiod.LineSettings(edge_detection=event_type)
+                                               self.line_numbers: gpiod.LineSettings(
+                                                   edge_detection=event_type)
                                            }
                                            )
 
@@ -84,9 +85,7 @@ class GPIOEventHandler:
         logging.debug('finalizer')
 
 
-INS_R3D = """INSERT INTO shp.ruler3d (box_id, length, width, height)
-VALUES (%s, %s, %s, %s);
-"""
+INS_R3D = "INSERT INTO shp.ruler3d (box_id, length, width, height) VALUES (%s, %s, %s, %s);"
 
 
 class Ruler3D(log_app.LogApp, pg_app.PGapp):
@@ -148,11 +147,13 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
                 logging.debug(f'   {line_offset}, dist(cm)={dist_cm}')
                 self.dist3[line_offset].append(dist_cm)
                 if len(self.dist3[line_offset]) == 2:
-                    dist_avg = round((self.dist3[line_offset][0] + self.dist3[line_offset][1]) / 2.0, 1)
+                    dist_avg = round((self.dist3[line_offset][0] + self.dist3[line_offset][1]) /
+                                     2.0, 1)
                     self.dist3[line_offset] = []
                     size: float = round(self.line_def[line_offset]['base'] - dist_avg, 1)
                     self.size[self.line_def[line_offset]['name']] = size
-                    logging.debug(f'{self.line_def[line_offset]["name"]}, dist_avg={dist_avg}, size={size}')
+                    logging.debug(f'{self.line_def[line_offset]["name"]}, dist_avg={dist_avg}, \
+                            size={size}')
                     self.timestamp_rising[line_offset] = {}
                     if len(self.size) == 3:
                         self.pg_write()
@@ -161,8 +162,14 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
     def pg_write(self):
         """ save results to PG database"""
         logging.debug(self.size)
-        ins_sql = self.curs.mogrify(INS_R3D, (1, self.size['length'], self.size['width'], self.size['height']))
-        self.do_query(ins_sql, reconnect=True)
+        ins_sql = self.curs.mogrify(INS_R3D, (1, self.size['length'], self.size['width'],
+                                              self.size['height']))
+        if not self.do_query(ins_sql, reconnect=True):
+            # save to file
+            dt_str = time.strftime("%Y-%m-%d-%H-%M-%S")
+            with open(f'failed_inserts_{dt_str}.sql', 'a') as file:
+                file.write(ins_sql.decode("utf-8") + '\n')
+            logging.error("Ошибка при вставке данных в базу данных. Данные сохранены в файл.")
 
 
 def main():
@@ -185,17 +192,20 @@ if __name__ == "__main__":
         # logging.debug('lines tuple=%s', RULER3D.lines)
 
         try:
-            HANDLER = GPIOEventHandler(chip_name=RULER3D.chip_name, line_numbers=RULER3D.lines, edge_type="both",
+            HANDLER = GPIOEventHandler(chip_name=RULER3D.chip_name, line_numbers=RULER3D.lines,
+                                       edge_type="both",
                                        callback=RULER3D.event_handler)
         except FileNotFoundError:
             HANDLER = None
+            RISING_VALUE = gpiod.EdgeEvent.Type.RISING_EDGE.value
+            FALLING_VALUE = gpiod.EdgeEvent.Type.FALLING_EDGE.value
             logging.error("GPIO chip not found, run in EMU mode")
             # run emulator mode
             for emu_line in RULER3D.lines:
                 for cnt in [0, 1]:
                     # gpiod._ext.EDGE_EVENT_TYPE_RISING,
                     RULER3D.event_handler(emu_line,
-                                          gpiod.EdgeEvent(event_type=gpiod.EdgeEvent.Type.RISING_EDGE.value,
+                                          gpiod.EdgeEvent(event_type=RISING_VALUE,
                                                           timestamp_ns=time.time_ns(),
                                                           line_offset=emu_line,
                                                           global_seqno=0,
@@ -204,7 +214,7 @@ if __name__ == "__main__":
                     time.sleep(0.001)
                     # gpiod._ext.EDGE_EVENT_TYPE_FALLING,
                     RULER3D.event_handler(emu_line,
-                                          gpiod.EdgeEvent(event_type=gpiod.EdgeEvent.Type.FALLING_EDGE.value,
+                                          gpiod.EdgeEvent(event_type=FALLING_VALUE,
                                                           line_offset=emu_line,
                                                           timestamp_ns=time.time_ns(),
                                                           global_seqno=0,
