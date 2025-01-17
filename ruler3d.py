@@ -85,7 +85,7 @@ class GPIOEventHandler:
         logging.debug('finalizer')
 
 
-INS_R3D = "INSERT INTO shp.ruler3d (box_id, length, width, height) VALUES (%s, %s, %s, %s);"
+INS_R3D = "INSERT INTO shp.ruler3d (shp_id, box, length, width, height) VALUES (%s, %s, %s, %s, %s);"
 
 
 class Ruler3D(log_app.LogApp, pg_app.PGapp):
@@ -162,7 +162,7 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
     def pg_write(self):
         """ save results to PG database"""
         logging.debug(self.size)
-        ins_sql = self.curs.mogrify(INS_R3D, (1, self.size['length'], self.size['width'],
+        ins_sql = self.curs.mogrify(INS_R3D, (112233, 1, self.size['length'], self.size['width'],
                                               self.size['height']))
         if not self.do_query(ins_sql, reconnect=True):
             # save to file
