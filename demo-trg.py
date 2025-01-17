@@ -4,7 +4,6 @@ import time
 import gpiod
 from gpiod.line import Direction, Value
 
-#LINE = 73
 TRG_LINES = [73, 228, 229]
 SAMPLE_WAIT = 0.1
 
@@ -14,7 +13,6 @@ with gpiod.request_lines(
     consumer="trg-example",
     config={
         tuple(TRG_LINES): gpiod.LineSettings(
-        #LINE: gpiod.LineSettings(
             direction=Direction.OUTPUT, output_value=Value.ACTIVE
         )
     },
@@ -24,7 +22,7 @@ with gpiod.request_lines(
         time.sleep(SAMPLE_WAIT)
         print(f'  UP {line}')
         request.set_value(line, Value.ACTIVE)
-        #time.sleep(0.0001)
+        # time.sleep(0.0001)
         time.sleep(0.001)
         request.set_value(line, Value.INACTIVE)
         print(f'FINISH {line}')
