@@ -1,0 +1,20 @@
+[Unit]
+Description =RULER3D PG NOTIFY listener
+After = network.target network-online.target dbus.service
+Wants = network-online.target
+#Requires = dbus.service
+
+[Service]
+Type = simple
+PIDFile = /run/scan_listener.pid
+WorkingDirectory=/home/orangepi/ruler3d-n-scale/
+#Environment="PYENV_VERSION=3.7.16"
+User=orangepi
+#ExecStart = /home/apps/.pyenv/versions/3.7.16/bin/python /home/apps/ozon/pg_ozon_listener.py --host=vm-pg --db arc_energo --user arc_energo
+ExecStart = /home/orangepi/ruler3d-n-scale/scan_listener.py --host=vm-pg-devel.arc.world --db arc_energo --user arc_energo --log DEBUG
+Restart = on-abort
+StartLimitInterval = 60
+StartLimitBurst = 10
+
+[Install]
+WantedBy = multi-user.target
