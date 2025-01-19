@@ -1,0 +1,18 @@
+Orange Pi Zero pin-out
+GPIO 73 - P7 (на коннекторе для макетной платы)
+70 - P0
+69 - P2
+72 - P3
+231 - MOSI
+232 - MISO
+230 - SCLK
+226 - TXD
+227 - RXD
+75 - P1
+79 - P4
+78 - P5
+71 - P6
+233 - CE0
+74 - CE1
+229 - SDA
+228 - SCL
