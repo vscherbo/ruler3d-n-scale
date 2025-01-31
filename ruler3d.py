@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-import time
-import gpiod
 import threading
+import time
 
+import gpiod
 import log_app
 import pg_app
 
@@ -38,6 +38,7 @@ class GPIOEventHandler:
     def _configure_lines(self):
         """Configure the GPIO lines for edge detection."""
         # Define edge event type
+
         if self.edge_type == 'rising':
             event_type = gpiod.line.Edge.RISING
         elif self.edge_type == 'falling':
@@ -57,9 +58,11 @@ class GPIOEventHandler:
 
     def _event_listener(self):
         """Listen for GPIO edge events."""
+
         while self.running:
             # Block until an event occurs
             events = self.request.read_edge_events()
+
             if events:
                 for event in events:
                     self.callback(event.line_offset, event)
@@ -67,6 +70,7 @@ class GPIOEventHandler:
     def start(self):
         """Start the event listener thread."""
         self.running = True
+
         if not self.event_thread.is_alive():
             self.event_thread = threading.Thread(target=self._event_listener)
             self.event_thread.daemon = True
@@ -75,6 +79,7 @@ class GPIOEventHandler:
     def stop(self):
         self.running = False
         """Stop the event listener thread."""
+
         if hasattr(self, 'request'):
             self.request.release()
             logging.debug('self.request released')
@@ -85,7 +90,16 @@ class GPIOEventHandler:
         logging.debug('finalizer')
 
 
-INS_R3D = "INSERT INTO shp.ruler3d (shp_id, box, length, width, height) VALUES (%s, %s, %s, %s, %s);"
+# INS_R3D = "INSERT INTO shp.ruler3d(shp_id, box, length, width, height) VALUES(%s, %s, %s, %s, %s);"
+
+# DEBUG ONLY - same shp_id
+INS_R3D = """INSERT INTO shp.ruler3d(shp_id, box, length, width, height) VALUES(%s, %s, %s, %s, %s)
+ON CONFLICT (shp_id, box) DO UPDATE SET 
+length = EXCLUDED.length,
+width = EXCLUDED.width,
+height = EXCLUDED.height,
+ins_ts = now();
+"""
 
 
 class Ruler3D(log_app.LogApp, pg_app.PGapp):
@@ -95,6 +109,7 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
         self.get_config(inline_comment_prefixes=(';', '#'))
 
         pg_app.PGapp.__init__(self, self.config['PG']['pg_host'], self.config['PG']['pg_user'])
+
         if self.pg_connect():
             self.set_session(autocommit=True)
 
@@ -117,15 +132,18 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
     @property
     def lines(self):
         """ Converts keys of self.line_def to tuple """
+
         return tuple(self.line_def.keys())
 
     @property
     def chip_name(self):
         """ Returns chip_name from config """
+
         return self.config['GPIO']['chip_name']
 
     def event_handler(self, line_offset, event):
         # logging.debug(f"Edge detected on line {line_offset}, Event: {event.event_type}")
+
         if event.event_type == event.Type.RISING_EDGE:
             self.timestamp_rising[line_offset] = event.timestamp_ns
             try:
@@ -146,6 +164,7 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
                 dist_cm = round(ts_delta / 1000 / 57.72, 1)
                 logging.debug(f'   {line_offset}, dist(cm)={dist_cm}')
                 self.dist3[line_offset].append(dist_cm)
+
                 if len(self.dist3[line_offset]) == 2:
                     dist_avg = round((self.dist3[line_offset][0] + self.dist3[line_offset][1]) /
                                      2.0, 1)
@@ -155,6 +174,7 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
                     logging.debug(f'{self.line_def[line_offset]["name"]}, dist_avg={dist_avg}, \
                             size={size}')
                     self.timestamp_rising[line_offset] = {}
+
                     if len(self.size) == 3:
                         self.pg_write()
                         self.size = {}
@@ -164,6 +184,7 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
         logging.debug(self.size)
         ins_sql = self.curs.mogrify(INS_R3D, (112233, 1, self.size['length'], self.size['width'],
                                               self.size['height']))
+
         if not self.do_query(ins_sql, reconnect=True):
             # save to file
             dt_str = time.strftime("%Y-%m-%d-%H-%M-%S")
@@ -178,6 +199,7 @@ def main():
 
 
 # Example usage
+
 if __name__ == "__main__":
     import logging
     import sys
@@ -186,6 +208,7 @@ if __name__ == "__main__":
     ARGS = log_app.PARSER.parse_args()
     print(ARGS)
     RULER3D = Ruler3D(args=ARGS)
+
     if RULER3D:
         logging.debug(RULER3D.line_def)
         # logging.debug('type: lines tuple=%s', type(RULER3D.lines))
@@ -201,6 +224,7 @@ if __name__ == "__main__":
             FALLING_VALUE = gpiod.EdgeEvent.Type.FALLING_EDGE.value
             logging.error("GPIO chip not found, run in EMU mode")
             # run emulator mode
+
             for emu_line in RULER3D.lines:
                 for cnt in [0, 1]:
                     # gpiod._ext.EDGE_EVENT_TYPE_RISING,
@@ -231,6 +255,7 @@ if __name__ == "__main__":
                     # print('loop')
             except KeyboardInterrupt:
                 print('\ncaught keyboard interrupt!')
+
                 if HANDLER is not None:
                     HANDLER.stop()
                 print("Program terminated")
