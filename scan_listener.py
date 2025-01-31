@@ -2,8 +2,6 @@
 """ A PG listener to update Ozon stocks
 """
 
-from __future__ import print_function
-
 import argparse
 import logging
 import os
@@ -49,7 +47,7 @@ def start_ruler3d(arg_shp_id, arg_box):
     """ sends 3 signals to activate sensor
     """
     logging.debug('arg_shp_id=%s, arg_box=%s', arg_shp_id, arg_box)
-    # INSERT draft raw
+    # INSERT draft row
 
     with gpiod.request_lines(
         "/dev/gpiochip0",
