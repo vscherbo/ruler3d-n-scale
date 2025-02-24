@@ -67,11 +67,11 @@ def start_ruler3d(arg_shp_id, arg_box):
         for line in TRG_LINES:
             request.set_value(line, Value.INACTIVE)
             sleep(SAMPLE_WAIT)
-            logging.debug('  UP %s', line)
+            logging.debug('  Line %s UP', line)
             request.set_value(line, Value.ACTIVE)
             sleep(0.001)
             request.set_value(line, Value.INACTIVE)
-            logging.debug('FINISH %s', line)
+            logging.debug('Line %s DOWN', line)
             sleep(SAMPLE_WAIT)
 
 

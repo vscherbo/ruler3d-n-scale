@@ -175,7 +175,7 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
         if event.event_type == event.Type.RISING_EDGE:
             self.timestamp_rising[line_offset] = event.timestamp_ns
             try:
-                if len(self.dist3[line_offset]) == 2:
+                if len(self.dist3[line_offset]) == 2:  # уже было 2 измерения, значит это новое и нужно очистить
                     self.dist3[line_offset] = []
             except KeyError:
                 self.dist3[line_offset] = []
@@ -189,21 +189,22 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
             else:
                 # if delta 36-38 ms then NO answer received!
                 # dist_cm = round(ts_delta/1000/58.8, 1)
-                dist_cm = round(ts_delta / 1000 / 57.72, 1)
-                logging.debug(f'   {line_offset}, dist(cm)={dist_cm}')
+                # PROD dist_cm = round(ts_delta / 1000 / 57.72, 1)
+                dist_cm = round(ts_delta * 0.0172032 /1000, 1)
+                logging.debug(f"   {self.line_def[line_offset]['name']}(line={line_offset}), dist(cm)={dist_cm}")
                 self.dist3[line_offset].append(dist_cm)
 
-                if len(self.dist3[line_offset]) == 2:
+                if len(self.dist3[line_offset]) == 2:  # фактически после одного триггера приходит 2 ответа
                     dist_avg = round((self.dist3[line_offset][0] + self.dist3[line_offset][1]) /
-                                     2.0, 1)
+                                     2.0, 1)  # среденее для двух ответов
                     self.dist3[line_offset] = []
-                    size: float = round(self.line_def[line_offset]['base'] - dist_avg, 1)
+                    size: float = round(self.line_def[line_offset]['base'] - dist_avg, 1)  # размер = база - расстояние до объекта
                     self.size[self.line_def[line_offset]['name']] = size
-                    logging.debug(f'{self.line_def[line_offset]["name"]}, dist_avg={dist_avg}, \
+                    logging.debug(f'>> {self.line_def[line_offset]["name"]}, dist_avg={dist_avg}, \
                             size={size}')
                     self.timestamp_rising[line_offset] = {}
 
-                    if len(self.size) == 3:
+                    if len(self.size) == 3:  # получены все 3 измерения, записываем в БД и обнуляем
                         self.pg_write()
                         self.size = {}
 
