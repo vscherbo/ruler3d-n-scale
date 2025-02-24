@@ -16,6 +16,9 @@ import psycopg2
 import psycopg2.extensions
 from gpiod.line import Direction, Value
 
+import log_app
+from ruler3d import Ruler3D, GPIOEventHandler
+
 PG_CHANNELS = ('do_ruler3d',)
 PG_TIMEOUT = 5
 MARK_DISPLAY = 3600
@@ -46,11 +49,14 @@ def do_start_ruler3d(notify):
 def start_ruler3d(arg_shp_id, arg_box):
     """ sends 3 signals to activate sensor
     """
-    logging.debug('arg_shp_id=%s, arg_box=%s', arg_shp_id, arg_box)
-    # INSERT draft row
+    # logging.debug('arg_shp_id=%s, arg_box=%s', arg_shp_id, arg_box)
+    # logging.debug('RULER3D.lines=%s', RULER3D.lines)
+    RULER3D.shp_id = arg_shp_id
+    RULER3D.box = arg_box
+
 
     with gpiod.request_lines(
-        "/dev/gpiochip0",
+        RULER3D.chip_name,  # "/dev/gpiochip0",
         consumer="ruler3d-trigger",
         config={
             tuple(TRG_LINES): gpiod.LineSettings(
@@ -135,28 +141,45 @@ def main(arg_conn):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Pg listener for .')
-    parser.add_argument('--host', type=str, required=True, help='PG host')
-    parser.add_argument('--db', type=str, required=True, help='database name')
-    parser.add_argument('--user', type=str, required=True, help='db user')
-    parser.add_argument('--log', type=str, default="INFO", help='log level')
-    args = parser.parse_args()
+    args = log_app.PARSER.parse_args()
 
+    ### ruler3d with config parsing!
+    RULER3D = Ruler3D(args=args)
+    if RULER3D:
+        logging.debug(RULER3D.line_def)
+
+        try:
+            HANDLER = GPIOEventHandler(chip_name=RULER3D.chip_name, line_numbers=RULER3D.lines,
+                                       edge_type="both",
+                                       callback=RULER3D.event_handler)
+        except FileNotFoundError:
+            HANDLER = None
+            emu_mode(RULER3D)
+        except PermissionError:
+            logging.error("Permission denied")
+            sys.exit(1)
+    ### end of ruler3d
+
+    #self.config['PG']['pg_host'], self.config['PG']['pg_user']
     # password='PASS'-.pgpass
-    DSN = f'dbname={args.db} host={args.host} user={args.user}'
+    #DSN = f'dbname={args.db} host={args.host} user={args.user}'
+    DSN = f"dbname={RULER3D.config['PG']['pg_user']} host={RULER3D.config['PG']['pg_host']} user={RULER3D.config['PG']['pg_user']}"
 
-    numeric_level = getattr(logging, args.log, None)
+    numeric_level = getattr(logging, args.log_level, None)
 
     if not isinstance(numeric_level, int):
         raise ValueError(f'Invalid log level: {numeric_level}')
 
+    """
     LOG_FORMAT = '%(asctime)-15s | %(levelname)-7s | %(filename)-25s:%(lineno)4s - %(funcName)25s()\
             | %(message)s'
     (prg_name, prg_ext) = os.path.splitext(os.path.basename(__file__))
     logging.basicConfig(filename=prg_name+'.log', format=LOG_FORMAT, level=numeric_level)  # INFO)
+    """
 
     logging.info("Started")
     DO_CONNECT = 1
+
 
     while DO_CONNECT == 1:
         # sel_res = ([], [], [])

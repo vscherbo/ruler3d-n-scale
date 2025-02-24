@@ -5,6 +5,7 @@ HC-SR04
 
 import threading
 import time
+import logging
 
 import gpiod
 import log_app
@@ -93,8 +94,6 @@ class GPIOEventHandler:
         logging.debug('finalizer')
 
 
-# INS_R3D = "INSERT INTO shp.ruler3d(shp_id, box, length, width, height) VALUES(%s, %s, %s, %s, %s);"
-
 # DEBUG ONLY - same shp_id
 INS_R3D = """INSERT INTO shp.ruler3d(shp_id, box, length, width, height) VALUES(%s, %s, %s, %s, %s)
 ON CONFLICT (shp_id, box) DO UPDATE SET 
@@ -103,6 +102,8 @@ width = EXCLUDED.width,
 height = EXCLUDED.height,
 ins_ts = now();
 """
+
+# INS_R3D = "INSERT INTO shp.ruler3d(shp_id, box, length, width, height) VALUES(%s, %s, %s, %s, %s);"
 
 
 class Ruler3D(log_app.LogApp, pg_app.PGapp):
@@ -131,6 +132,8 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
                 'base': float(self.config['height']['base']),
                 'name': self.config['height']['name']}
         }
+        self._shp_id = None
+        self._box = None
 
     @property
     def lines(self):
@@ -143,6 +146,28 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
         """ Returns chip_name from config """
 
         return self.config['GPIO']['chip_name']
+
+    @property
+    def shp_id(self):
+        return self._shp_id
+
+    @shp_id.setter
+    def shp_id(self, value):
+        try:
+            self._shp_id = int(value)
+        except ValueError:
+            self._shp_id = None
+
+    @property
+    def box(self):
+        return self._box
+
+    @box.setter
+    def box(self, value):
+        try:
+            self._box = int(value)
+        except ValueError:
+            self._box = None
 
     def event_handler(self, line_offset, event):
         # logging.debug(f"Edge detected on line {line_offset}, Event: {event.event_type}")
@@ -162,7 +187,7 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
             except KeyError:
                 logging.warning(f'NO rising. Skip: {self.dist3}')
             else:
-                # if delta 38 ms then NO answer received!
+                # if delta 36-38 ms then NO answer received!
                 # dist_cm = round(ts_delta/1000/58.8, 1)
                 dist_cm = round(ts_delta / 1000 / 57.72, 1)
                 logging.debug(f'   {line_offset}, dist(cm)={dist_cm}')
@@ -182,18 +207,51 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
                         self.pg_write()
                         self.size = {}
 
+    def mk_ins_fname(self):            
+        dt_str = time.strftime("%Y-%m-%d-%H-%M-%S")
+        return f'failed_inserts_{self._shp_id}_{self._box}_{dt_str}.sql'
+
     def pg_write(self):
         """ save results to PG database"""
         logging.debug(self.size)
-        ins_sql = self.curs.mogrify(INS_R3D, (112233, 1, self.size['length'], self.size['width'],
+        ins_sql = self.curs.mogrify(INS_R3D, (self.shp_id, self.box, self.size['length'], self.size['width'],
                                               self.size['height']))
 
         if not self.do_query(ins_sql, reconnect=True):
             # save to file
-            dt_str = time.strftime("%Y-%m-%d-%H-%M-%S")
-            with open(f'failed_inserts_{dt_str}.sql', 'a') as file:
+            loc_fname = self.mk_ins_fname()
+            with open(self.loc_fname, 'a') as file:
                 file.write(ins_sql.decode("utf-8") + '\n')
-            logging.error("Ошибка при вставке данных в базу данных. Данные сохранены в файл.")
+            logging.error(f"Ошибка при вставке данных в базу данных. Данные сохранены в файл {loc_fname}.")
+        else:
+            logging.info("Данные сохранены в базу данных.")
+
+def emu_mode(ruler3d):
+    """ Emulation """
+    RISING_VALUE = gpiod.EdgeEvent.Type.RISING_EDGE.value
+    FALLING_VALUE = gpiod.EdgeEvent.Type.FALLING_EDGE.value
+    logging.error("GPIO chip not found, run in EMU mode")
+    # run emulator mode
+
+    for emu_line in RULER3D.lines:
+        for cnt in [0, 1]:
+            # gpiod._ext.EDGE_EVENT_TYPE_RISING,
+            RULER3D.event_handler(emu_line,
+                                  gpiod.EdgeEvent(event_type=RISING_VALUE,
+                                                  timestamp_ns=time.time_ns(),
+                                                  line_offset=emu_line,
+                                                  global_seqno=0,
+                                                  line_seqno=emu_line)
+                                  )
+            time.sleep(0.001)
+            # gpiod._ext.EDGE_EVENT_TYPE_FALLING,
+            RULER3D.event_handler(emu_line,
+                                  gpiod.EdgeEvent(event_type=FALLING_VALUE,
+                                                  line_offset=emu_line,
+                                                  timestamp_ns=time.time_ns(),
+                                                  global_seqno=0,
+                                                  line_seqno=emu_line)
+                                  )
 
 
 def main():
@@ -223,30 +281,7 @@ if __name__ == "__main__":
                                        callback=RULER3D.event_handler)
         except FileNotFoundError:
             HANDLER = None
-            RISING_VALUE = gpiod.EdgeEvent.Type.RISING_EDGE.value
-            FALLING_VALUE = gpiod.EdgeEvent.Type.FALLING_EDGE.value
-            logging.error("GPIO chip not found, run in EMU mode")
-            # run emulator mode
-
-            for emu_line in RULER3D.lines:
-                for cnt in [0, 1]:
-                    # gpiod._ext.EDGE_EVENT_TYPE_RISING,
-                    RULER3D.event_handler(emu_line,
-                                          gpiod.EdgeEvent(event_type=RISING_VALUE,
-                                                          timestamp_ns=time.time_ns(),
-                                                          line_offset=emu_line,
-                                                          global_seqno=0,
-                                                          line_seqno=emu_line)
-                                          )
-                    time.sleep(0.001)
-                    # gpiod._ext.EDGE_EVENT_TYPE_FALLING,
-                    RULER3D.event_handler(emu_line,
-                                          gpiod.EdgeEvent(event_type=FALLING_VALUE,
-                                                          line_offset=emu_line,
-                                                          timestamp_ns=time.time_ns(),
-                                                          global_seqno=0,
-                                                          line_seqno=emu_line)
-                                          )
+            emu_mode(RULER3D)
         except PermissionError:
             logging.error("Permission denied")
             sys.exit(1)
