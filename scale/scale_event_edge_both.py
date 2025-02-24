@@ -24,6 +24,7 @@ class HX711:
         self.offset = 0
         self.scale = 1
 
+        self.chip_name = chip_name
         self.chip = gpiod.Chip(chip_name)
         self.data_line = data_line
         self.clock_line = clock_line
@@ -33,7 +34,10 @@ class HX711:
     
     def request_lines(self):
         """Request GPIO lines using gpiod.request_lines."""
-        config_data = gpiod.LineSettings(direction=Direction.INPUT, edge_detection=Edge.BOTH)
+        #config_data = gpiod.LineSettings(direction=Direction.INPUT, edge_detection=Edge.BOTH)
+        config_data = gpiod.LineSettings(edge_detection=Edge.BOTH)
+        #config_data = gpiod.LineSettings(edge_detection=Edge.RISING)
+        #config_data = gpiod.LineSettings(edge_detection=Edge.FALLING)
         config_clock = gpiod.LineSettings(direction=Direction.OUTPUT)
         """
         self.line_request = self.chip.request_lines(
@@ -46,14 +50,16 @@ class HX711:
         )
         """
 
-        self.data_request = self.chip.request_lines(
+        self.data_request = gpiod.request_lines(
+            self.chip_name,
             consumer="hx711_data",
             config={
                 self.data_line: config_data
             }
         )
 
-        self.clock_request = self.chip.request_lines(
+        self.clock_request = gpiod.request_lines(
+            self.chip_name,
             consumer="hx711_clock",
             config={
                 self.clock_line: config_clock
@@ -61,7 +67,7 @@ class HX711:
             output_values={self.clock_line: Value.INACTIVE}
         )
 
-        self.data_request.read_edge_events()
+        #self.data_request.read_edge_events()
     
     def set_gain(self, gain: int):
         """
@@ -106,7 +112,10 @@ class HX711:
             self.clock_request.set_value(self.clock_line, Value.ACTIVE)
             time.sleep(0.000001)
             if self.edge_event_detected:
-                value = (value << 1) | self.data_request.get_value(self.data_line).value
+                loc_value = self.data_request.get_value(self.data_line).value
+                print(f'loc_value={loc_value}')
+                value = (value << 1) | loc_value
+                # value = (value << 1) | self.data_request.get_value(self.data_line).value
                 print(f'value={value}')
             self.clock_request.set_value(self.clock_line, Value.INACTIVE)
             time.sleep(0.000001)

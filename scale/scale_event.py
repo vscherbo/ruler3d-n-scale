@@ -174,14 +174,12 @@ class TensileScale:
         logging.info("Cleanup complete.")
 
 if __name__ == "__main__":
-    # scale = TensileScale(chip_name="/dev/gpiochip0", data_line=72, clock_line=74)
-    # scale = TensileScale(chip_name="/dev/gpiochip0", data_line=72, clock_line=233)
-    scale = TensileScale(chip_name="/dev/gpiochip0", data_line=227, clock_line=226, gain=32)
+    scale = TensileScale(chip_name="/dev/gpiochip0", data_line=226, clock_line=227, gain=32)
     try:
-        # scale.calibrate(known_weight=532.0)  # Calibrate with a 500g weight
+        scale.calibrate(known_weight=2000.0)  # Calibrate with a 2000g weight
         # scale.calibrate(known_weight=0.001)  # Calibrate with a 500g weight
-        # logging.info('Sleep!')
-        # time.sleep(5)
+        logging.info('Sleep!')
+        time.sleep(5)
         weight = scale.get_weight()
         print(f"Measured weight: {weight:.2f} grams")
     finally:
