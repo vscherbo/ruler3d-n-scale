@@ -220,7 +220,7 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
         if not self.do_query(ins_sql, reconnect=True):
             # save to file
             loc_fname = self.mk_ins_fname()
-            with open(self.loc_fname, 'a') as file:
+            with open(loc_fname, 'a') as file:
                 file.write(ins_sql.decode("utf-8") + '\n')
             logging.error(f"Ошибка при вставке данных в базу данных. Данные сохранены в файл {loc_fname}.")
         else:
