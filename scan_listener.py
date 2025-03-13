@@ -24,7 +24,14 @@ PG_TIMEOUT = 5
 MARK_DISPLAY = 3600
 R3D_MAX_FREQ = 30
 
+TRG_TIME = 0.001
+# TRG_TIME = 0.0001 BAD
 TRG_LINES = [73, 228, 229]  # to conf file
+"""
+GPIO=73, Phys=7
+GPIO=228, Phys=5
+GPIO=229, Phys=3
+"""
 SAMPLE_WAIT = 0.1
 
 SIGNALS_TO_NAMES_DICT = dict((getattr(signal, n), n) for n in dir(signal)
@@ -69,7 +76,8 @@ def start_ruler3d(arg_shp_id, arg_box):
             sleep(SAMPLE_WAIT)
             logging.debug('  Line %s UP', line)
             request.set_value(line, Value.ACTIVE)
-            sleep(0.001)
+            # sleep(0.001)
+            sleep(TRG_TIME)
             request.set_value(line, Value.INACTIVE)
             logging.debug('Line %s DOWN', line)
             sleep(SAMPLE_WAIT)
