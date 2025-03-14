@@ -2,6 +2,7 @@
 """ A PG listener to update Ozon stocks
 """
 
+import ctypes
 import argparse
 import logging
 import os
@@ -37,6 +38,11 @@ SAMPLE_WAIT = 0.1
 SIGNALS_TO_NAMES_DICT = dict((getattr(signal, n), n) for n in dir(signal)
                              if n.startswith('SIG') and '_' not in n)
 
+# Load the shared library
+gpio_lib = ctypes.CDLL("./gpio_pulse.so")
+
+# Define function argument types
+gpio_lib.generate_pulse.argtypes = [ctypes.c_char_p, ctypes.c_int]
 
 ####################################################################################################
 def do_start_ruler3d(notify):
@@ -48,9 +54,25 @@ def do_start_ruler3d(notify):
         logging.warning('wrong payload=%s', notify.payload)
     else:
         logging.debug('str_shp_d=%s, str_box=%s', str_shp_id, str_box)
-        # loc_home = os.path.expanduser('~')
-        start_ruler3d(str_shp_id, str_box)
 
+        RULER3D.shp_id = str_shp_id
+        RULER3D.box = str_box
+        # OLD start_ruler3d(str_shp_id, str_box)
+        call_pulse()
+
+
+#############################################################################
+def call_pulse():
+    """ sends 10 uS pulse signals to activate sensors
+    """
+    # Pass a bytes string (C-compatible)
+    #RULER3D.chip_name.encode('utf-8')
+    #chip_name = b"/dev/gpiochip0"  # Convert to bytes (b"string")
+    chip_name = RULER3D.chip_name.encode('utf-8')
+
+    for gpio_line in TRG_LINES:
+        gpio_lib.generate_pulse(chip_name, gpio_line)
+        sleep(SAMPLE_WAIT)
 
 #############################################################################
 def start_ruler3d(arg_shp_id, arg_box):
