@@ -174,12 +174,14 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
 
         if event.event_type == event.Type.RISING_EDGE:
             self.timestamp_rising[line_offset] = event.timestamp_ns
+            """ DEL
             try:
                 if len(self.dist3[line_offset]) == 2:  # уже было 2 измерения, значит это новое и нужно очистить
                     self.dist3[line_offset] = []
             except KeyError:
                 self.dist3[line_offset] = []
                 pass
+            """
 
         elif event.event_type == event.Type.FALLING_EDGE:
             try:
@@ -192,21 +194,19 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
                 # PROD dist_cm = round(ts_delta / 1000 / 57.72, 1)
                 dist_cm = round(ts_delta * 0.0172032 /1000, 1)
                 logging.debug(f"   {self.line_def[line_offset]['name']}(line={line_offset}), dist(cm)={dist_cm}")
-                self.dist3[line_offset].append(dist_cm)
+                # DEL self.dist3[line_offset] = dist_cm
 
-                if len(self.dist3[line_offset]) == 2:  # фактически после одного триггера приходит 2 ответа
-                    dist_avg = round((self.dist3[line_offset][0] + self.dist3[line_offset][1]) /
-                                     2.0, 1)  # среденее для двух ответов
-                    self.dist3[line_offset] = []
-                    size: float = round(self.line_def[line_offset]['base'] - dist_avg, 1)  # размер = база - расстояние до объекта
-                    self.size[self.line_def[line_offset]['name']] = size
-                    logging.debug(f'>> {self.line_def[line_offset]["name"]}, dist_avg={dist_avg}, \
-                            size={size}')
-                    self.timestamp_rising[line_offset] = {}
+                #size: float = round(self.line_def[line_offset]['base'] - self.dist3[line_offset], 1)  # размер = база - расстояние до объекта
+                size: float = round(self.line_def[line_offset]['base'] - dist_cm, 1)  # размер = база - расстояние до объекта
+                self.size[self.line_def[line_offset]['name']] = size
+                logging.debug(f'>> {self.line_def[line_offset]["name"]}, dist_cm={dist_cm}, \
+                        size={size}')
+                # DEL self.dist3[line_offset] = []
+                self.timestamp_rising[line_offset] = {}
 
-                    if len(self.size) == 3:  # получены все 3 измерения, записываем в БД и обнуляем
-                        self.pg_write()
-                        self.size = {}
+                if len(self.size) == 3:  # получены все 3 измерения, записываем в БД и обнуляем
+                    self.pg_write()
+                    self.size = {}
 
     def mk_ins_fname(self):            
         dt_str = time.strftime("%Y-%m-%d-%H-%M-%S")
