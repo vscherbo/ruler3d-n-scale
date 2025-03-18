@@ -8,6 +8,7 @@ import time
 import logging
 
 import gpiod
+#from gpiod.line import Direction, Value, Edge, Bias
 import log_app
 import pg_app
 
@@ -56,6 +57,8 @@ class GPIOEventHandler:
         self.request = gpiod.request_lines(self.chip_name, consumer="watch-lines-edge",
                                            config={
                                                self.line_numbers: gpiod.LineSettings(
+                                                   direction=gpiod.line.Direction.INPUT,
+                                                   bias=gpiod.line.Bias.PULL_DOWN,
                                                    edge_detection=event_type)
                                            }
                                            )
