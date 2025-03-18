@@ -1,1 +1,4 @@
 test*
+failed_insert*sql
+*.so
+*.log
