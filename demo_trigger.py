@@ -4,8 +4,8 @@ import time
 import gpiod
 from gpiod.line import Direction, Value
 
-#TRG_LINES = [73, 228, 229]
 TRG_LINES = [73, 228, 229]
+#TRG_LINES = [73]  # 73 - height
 SAMPLE_WAIT = 0.1
 
 
@@ -26,7 +26,6 @@ for line in TRG_LINES:
     time.sleep(SAMPLE_WAIT)
     print(f'  UP {line}')
     request.set_value(line, Value.ACTIVE)
-    # time.sleep(0.0001)
     time.sleep(0.001)
     request.set_value(line, Value.INACTIVE)
     print(f'FINISH {line}')

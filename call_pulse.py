@@ -11,9 +11,9 @@ gpio_lib.generate_pulse.argtypes = [ctypes.c_char_p, ctypes.c_int]
 
 # Pass a bytes string (C-compatible)
 chip_name = b"/dev/gpiochip0"  # Convert to bytes (b"string")
-#gpio_line = 229  # height
-#gpio_line = 228  # length
-gpio_line = 73    # width
+#gpio_line = 229  # length
+#gpio_line = 228  # width
+gpio_line = 73  # height  
 
 
 #t_start = time.perf_counter()
