@@ -11,6 +11,7 @@ import signal
 # from sys import exc_info, exit
 import sys
 from time import sleep
+import ast
 
 import gpiod
 import psycopg2
@@ -26,7 +27,7 @@ MARK_DISPLAY = 3600
 R3D_MAX_FREQ = 30
 
 TRG_TIME = 0.001
-TRG_LINES = [73, 228, 229]  # to conf file
+#TRG_LINES = [73, 228, 229]  # to conf file
 """
 GPIO=73, Phys=7
 GPIO=228, Phys=5
@@ -188,6 +189,15 @@ if __name__ == '__main__':
             logging.error("Permission denied")
             sys.exit(1)
     ### end of ruler3d
+
+    #TRG_L = RULER3D.config['GPIO']['trg_lines']
+    #TRG_LINES = RULER3D.config['GPIO']['trg_lines']
+    #TRG_LINES = [int(item) for item in RULER3D.config['GPIO']['trg_lines']]
+    TRG_LINES = ast.literal_eval(RULER3D.config['GPIO']['trg_lines'])
+    logging.debug('conf.trg_lines=%s', TRG_LINES)
+    logging.debug('type(trg_lines)=%s', type(TRG_LINES))
+    logging.debug('type(trg_lines[0])=%s', type(TRG_LINES[0]))
+
 
     # password - .pgpass
     DSN = f"dbname={RULER3D.config['PG']['pg_user']} host={RULER3D.config['PG']['pg_host']} user={RULER3D.config['PG']['pg_user']}"
