@@ -26,7 +26,6 @@ MARK_DISPLAY = 3600
 R3D_MAX_FREQ = 30
 
 TRG_TIME = 0.001
-# TRG_TIME = 0.0001 BAD
 TRG_LINES = [73, 228, 229]  # to conf file
 """
 GPIO=73, Phys=7
@@ -190,9 +189,7 @@ if __name__ == '__main__':
             sys.exit(1)
     ### end of ruler3d
 
-    #self.config['PG']['pg_host'], self.config['PG']['pg_user']
-    # password='PASS'-.pgpass
-    #DSN = f'dbname={args.db} host={args.host} user={args.user}'
+    # password - .pgpass
     DSN = f"dbname={RULER3D.config['PG']['pg_user']} host={RULER3D.config['PG']['pg_host']} user={RULER3D.config['PG']['pg_user']}"
 
     numeric_level = getattr(logging, args.log_level, None)
