@@ -18,6 +18,8 @@ import psycopg2
 import psycopg2.extensions
 from gpiod.line import Direction, Value
 
+#from HX711 import *
+
 import log_app
 from ruler3d import Ruler3D, GPIOEventHandler
 
@@ -57,8 +59,15 @@ def do_start_ruler3d(notify):
 
         RULER3D.shp_id = str_shp_id
         RULER3D.box = str_box
-        # OLD start_ruler3d(str_shp_id, str_box)
+
+        RULER3D.do_weigh()
+        #loc_weight = HX711.weight(Options(10, ReadType.Median))
+        #logging.info(f'loc_weight={loc_weight}')
+        #RULER3D.weight = loc_weight
+
         call_pulse()
+        sleep(2)
+        RULER3D.pg_write()
 
 
 #############################################################################
@@ -69,41 +78,11 @@ def call_pulse():
     #RULER3D.chip_name.encode('utf-8')
     #chip_name = b"/dev/gpiochip0"  # Convert to bytes (b"string")
     chip_name = RULER3D.chip_name.encode('utf-8')
+    RULER3D.size = {}
 
     for gpio_line in TRG_LINES:
         gpio_lib.generate_pulse(chip_name, gpio_line)
         sleep(SAMPLE_WAIT)
-
-#############################################################################
-def start_ruler3d(arg_shp_id, arg_box):
-    """ sends 3 signals to activate sensor
-    """
-    # logging.debug('arg_shp_id=%s, arg_box=%s', arg_shp_id, arg_box)
-    # logging.debug('RULER3D.lines=%s', RULER3D.lines)
-    RULER3D.shp_id = arg_shp_id
-    RULER3D.box = arg_box
-
-
-    with gpiod.request_lines(
-        RULER3D.chip_name,  # "/dev/gpiochip0",
-        consumer="ruler3d-trigger",
-        config={
-            tuple(TRG_LINES): gpiod.LineSettings(
-                direction=Direction.OUTPUT, output_value=Value.ACTIVE
-            )
-        },
-    ) as request:
-        for line in TRG_LINES:
-            request.set_value(line, Value.INACTIVE)
-            sleep(SAMPLE_WAIT)
-            logging.debug('  Line %s UP', line)
-            request.set_value(line, Value.ACTIVE)
-            # sleep(0.001)
-            sleep(TRG_TIME)
-            request.set_value(line, Value.INACTIVE)
-            logging.debug('Line %s DOWN', line)
-            sleep(SAMPLE_WAIT)
-
 
 #############################################################################
 def do_listen(arg_conn, a_pg_timeout):
@@ -198,6 +177,10 @@ if __name__ == '__main__':
     logging.debug('type(trg_lines)=%s', type(TRG_LINES))
     logging.debug('type(trg_lines[0])=%s', type(TRG_LINES[0]))
 
+    #HX711 = SimpleHX711(231, 232, 100, -24753)
+    #if HX711:
+    #    logging.debug('HX711 created')
+    #    HX711.zero()
 
     # password - .pgpass
     DSN = f"dbname={RULER3D.config['PG']['pg_user']} host={RULER3D.config['PG']['pg_host']} user={RULER3D.config['PG']['pg_user']}"

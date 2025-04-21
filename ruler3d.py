@@ -9,6 +9,9 @@ import logging
 
 import gpiod
 #from gpiod.line import Direction, Value, Edge, Bias
+
+from HX711 import *
+
 import log_app
 import pg_app
 
@@ -98,11 +101,12 @@ class GPIOEventHandler:
 
 
 # DEBUG ONLY - same shp_id
-INS_R3D = """INSERT INTO shp.ruler3d(shp_id, box, length, width, height) VALUES(%s, %s, %s, %s, %s)
+INS_R3D = """INSERT INTO shp.ruler3d(shp_id, box, box_length, box_width, box_height, box_weight) VALUES(%s, %s, %s, %s, %s, %s)
 ON CONFLICT (shp_id, box) DO UPDATE SET 
-length = EXCLUDED.length,
-width = EXCLUDED.width,
-height = EXCLUDED.height,
+box_length = EXCLUDED.box_length,
+box_width = EXCLUDED.box_width,
+box_height = EXCLUDED.box_height,
+box_weight = EXCLUDED.box_weight,
 ins_ts = now();
 """
 
@@ -138,6 +142,25 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
         self._shp_id = None
         self._box = None
 
+        # self.hx711 = SimpleHX711(231, 232, 100, -24753)
+        try:
+            self.hx711 = SimpleHX711(int(self.config['hx711']['data_pin']),
+                    int(self.config['hx711']['clock_pin']),
+                    int(self.config['hx711']['ref_unit']),
+                    int(self.config['hx711']['offset'])
+                    )
+        # except Exception as excp:  # GPIO busy
+        except GpioException as excp:  # GPIO busy
+            logging.error('Creating SimpleHX711 failed=%s', str(excp))
+        except Exception as excp:
+            logging.error('Creating SimpleHX711 exception=%s', str(excp))
+            raise
+        else:
+            logging.debug('HX711 created')
+            self.hx711.setUnit(Mass.Unit.G)
+            self.hx711.zero()
+            self._weight = None
+
     @property
     def lines(self):
         """ Converts keys of self.line_def to tuple """
@@ -171,6 +194,17 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
             self._box = int(value)
         except ValueError:
             self._box = None
+
+    @property
+    def weight(self):
+        return self._weight
+
+    @weight.setter
+    def weight(self, value):
+        try:
+            self._weight = round(float(value))
+        except ValueError:
+            self._weight = None
 
     def event_handler(self, line_offset, event):
         # logging.debug(f"Edge detected on line {line_offset}, Event: {event.event_type}")
@@ -207,9 +241,9 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
                 # DEL self.dist3[line_offset] = []
                 self.timestamp_rising[line_offset] = {}
 
-                if len(self.size) == 3:  # получены все 3 измерения, записываем в БД и обнуляем
-                    self.pg_write()
-                    self.size = {}
+                #if len(self.size) == 3:  # получены все 3 измерения, записываем в БД и обнуляем
+                #    self.pg_write()
+                #    self.size = {}
 
     def mk_ins_fname(self):            
         dt_str = time.strftime("%Y-%m-%d-%H-%M-%S")
@@ -218,8 +252,11 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
     def pg_write(self):
         """ save results to PG database"""
         logging.debug(self.size)
-        ins_sql = self.curs.mogrify(INS_R3D, (self.shp_id, self.box, self.size['length'], self.size['width'],
-                                              self.size['height']))
+        #ins_sql = self.curs.mogrify(INS_R3D, (self.shp_id, self.box, self.size['length'], self.size['width'],
+        #                                      self.size['height'], self.weight))
+        ins_sql = self.curs.mogrify(INS_R3D, (self.shp_id, self.box, self.size.get('length'),
+                                              self.size.get('width'),
+                                              self.size.get('height'), self.weight))
 
         if not self.do_query(ins_sql, reconnect=True):
             # save to file
@@ -229,6 +266,10 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
             logging.error(f"Ошибка при вставке данных в базу данных. Данные сохранены в файл {loc_fname}.")
         else:
             logging.info("Данные сохранены в базу данных.")
+
+
+    def do_weigh(self):
+        self.weight = self.hx711.weight(Options(10, ReadType.Median))
 
 def emu_mode(ruler3d):
     """ Emulation """
