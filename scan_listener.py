@@ -23,7 +23,7 @@ from gpiod.line import Direction, Value
 import log_app
 from ruler3d import Ruler3D, GPIOEventHandler
 
-PG_CHANNELS = ('do_ruler3d',)
+PG_CHANNELS = ('do_ruler3d', 'do_zero', 'do_calibrate')
 PG_TIMEOUT = 5
 MARK_DISPLAY = 3600
 R3D_MAX_FREQ = 30
@@ -48,26 +48,64 @@ gpio_lib.generate_pulse.argtypes = [ctypes.c_char_p, ctypes.c_int]
 
 ####################################################################################################
 def do_start_ruler3d(notify):
-    """ Run ??? """
+    """ Start measuring """
     logging.debug("     Inside do_start_ruler3d")
     try:
         (str_shp_id, str_box) = notify.payload.split('^')
     except ValueError:
         logging.warning('wrong payload=%s', notify.payload)
     else:
-        logging.debug('str_shp_d=%s, str_box=%s', str_shp_id, str_box)
+        logging.debug('str_shp_id=%s, str_box=%s', str_shp_id, str_box)
 
         RULER3D.shp_id = str_shp_id
         RULER3D.box = str_box
 
         RULER3D.do_weigh()
         #loc_weight = HX711.weight(Options(10, ReadType.Median))
-        #logging.info(f'loc_weight={loc_weight}')
+        logging.info(f'loc_weight={RULER3D.weight}')
         #RULER3D.weight = loc_weight
 
         call_pulse()
-        sleep(2)
+        sleep(1)  # TOD0 How much is enough?
         RULER3D.pg_write()
+
+
+####################################################################################################
+def do_zero(notify):
+    """ Run calibrate HX711 """
+    logging.debug("     Inside do_zero")
+    RULER3D.set_zero()
+
+####################################################################################################
+def do_calibrate(notify):
+    """ Run calibrate HX711 """
+    logging.debug("     Inside do_calibrate")
+    try:
+        parts = notify.payload.split('^')
+    except ValueError:
+        logging.warning('wrong payload=%s', notify.payload)
+    else:
+        # Convert parts to appropriate types (var1 and var2 are int, var3 is str)
+        converted = []
+        args_ok = True
+        for i, part in enumerate(parts):
+            if i < 2:  # var1 and var2 should be integers
+                try:
+                    converted.append(int(part))
+                except ValueError as excp:
+                    args_ok = False
+                    logging.error('part=%s is not valid integer, excp=%s', part, excp)
+            else:      # var3 remains a string
+                converted.append(part)
+        
+        if args_ok:
+            # Call method do_calibrate() with the right number of arguments
+            if len(converted) == 1:
+                RULER3D.calibrate(converted[0])
+            elif len(converted) == 2:
+                RULER3D.calibrate(converted[0], converted[1])
+            elif len(converted) == 3:
+                RULER3D.calibrate(converted[0], converted[1], converted[2])
 
 
 #############################################################################
@@ -90,8 +128,10 @@ def do_listen(arg_conn, a_pg_timeout):
     sel_res = select.select([arg_conn], [], [], a_pg_timeout)
 
     if sel_res == ([], [], []):
+        logging.debug('Empty select')
         pass
     else:
+        logging.debug('poll after select')
         arg_conn.poll()
 
         while arg_conn.notifies:
@@ -101,6 +141,10 @@ def do_listen(arg_conn, a_pg_timeout):
 
             if 'do_ruler3d' == notify.channel:
                 do_start_ruler3d(notify)
+            elif 'do_zero' == notify.channel:
+                do_zero(notify)
+            elif 'do_calibrate' == notify.channel:
+                do_calibrate(notify)
             else:
                 logging.warning("unexpected notify.channel=%s", notify.channel)
             arg_conn.commit()

@@ -160,6 +160,7 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
             self.hx711.setUnit(Mass.Unit.G)
             self.hx711.zero()
             self._weight = None
+            self._scale_offset = None
 
     @property
     def lines(self):
@@ -269,7 +270,37 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
 
 
     def do_weigh(self):
+        """ Do weigh """
         self.weight = self.hx711.weight(Options(10, ReadType.Median))
+
+    def set_zero(self, samples=10):
+        """ Set zero offset for a sacle """
+        self._scale_offset = round(self.hx711.read(Options(int(samples))))
+        self.config['hx711']['offset'] = str(self._scale_offset)
+        self.hx711.setOffset(self._scale_offset)
+        with open(self.conf_name, 'w', encoding='utf-8') as cfgfile:
+            self.config.write(cfgfile)
+
+    def calibrate(self, known_weight, samples=10, unit='g'):
+        """ Calibrate a sacle """
+        raw = self.hx711.read(Options(int(samples)))
+        refUnitFloat = (raw - self._scale_offset) / known_weight
+        #refUnit = round(refUnitFloat, 0)
+        refUnit = round(refUnitFloat)
+        #logging.debug('refUnitFloat=%s', refUnitFloat)
+        #logging.debug('refUnit=%s', refUnit)
+        #logging.debug('round(refUnit)=%s', round(refUnit))
+
+        if refUnit == 0:
+            refUnit = 1
+
+        self.hx711.setReferenceUnit(refUnit)
+        #self.hx711.setOffset(self._scale_offset)
+        self.config['hx711']['ref_unit'] = str(refUnit)
+        with open(self.conf_name, 'w', encoding='utf-8') as cfgfile:
+            self.config.write(cfgfile)
+
+
 
 def emu_mode(ruler3d):
     """ Emulation """
