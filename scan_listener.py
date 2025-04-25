@@ -86,9 +86,11 @@ def do_calibrate(notify):
         logging.warning('wrong payload=%s', notify.payload)
     else:
         # Convert parts to appropriate types (var1 and var2 are int, var3 is str)
+        logging.debug('parts=%s', parts)
         converted = []
         args_ok = True
         for i, part in enumerate(parts):
+            logging.debug('loop i=%s part=%s', i, part)
             if i < 2:  # var1 and var2 should be integers
                 try:
                     converted.append(int(part))
@@ -98,9 +100,12 @@ def do_calibrate(notify):
             else:      # var3 remains a string
                 converted.append(part)
         
+        logging.debug('args_ok=%s', args_ok)
+        logging.debug('converted=%s', converted)
         if args_ok:
             # Call method do_calibrate() with the right number of arguments
             if len(converted) == 1:
+                logging.debug('call calibrate with arg=%s', converted[0])
                 RULER3D.calibrate(converted[0])
             elif len(converted) == 2:
                 RULER3D.calibrate(converted[0], converted[1])
@@ -128,10 +133,10 @@ def do_listen(arg_conn, a_pg_timeout):
     sel_res = select.select([arg_conn], [], [], a_pg_timeout)
 
     if sel_res == ([], [], []):
-        logging.debug('Empty select')
+        #logging.debug('Empty select')
         pass
     else:
-        logging.debug('poll after select')
+        #logging.debug('poll after select')
         arg_conn.poll()
 
         while arg_conn.notifies:
@@ -183,9 +188,9 @@ def main(arg_conn):
                 logging.info("Heartbeat mark")
         except psycopg2.Error as exc:
             do_while = 0
-            logging.info("Try to re-connect... exc=%s", str(exc))
+            logging.info("Try to re-connect... exc=%s", exc)
         except BaseException as exc:
-            logging.warning("Other exception=%s", str(exc))
+            logging.warning("Other exception=%s", exc)
             raise
 
     logging.info("Exiting")

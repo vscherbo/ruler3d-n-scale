@@ -160,7 +160,7 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
             self.hx711.setUnit(Mass.Unit.G)
             self.hx711.zero()
             self._weight = None
-            self._scale_offset = None
+            self._scale_offset = int(self.config['hx711']['offset'])
 
     @property
     def lines(self):
@@ -283,13 +283,15 @@ class Ruler3D(log_app.LogApp, pg_app.PGapp):
 
     def calibrate(self, known_weight, samples=10, unit='g'):
         """ Calibrate a sacle """
+        logging.debug(f'known_weight={known_weight}')
         raw = self.hx711.read(Options(int(samples)))
+        logging.debug(f'raw={raw}')
         refUnitFloat = (raw - self._scale_offset) / known_weight
         #refUnit = round(refUnitFloat, 0)
         refUnit = round(refUnitFloat)
-        #logging.debug('refUnitFloat=%s', refUnitFloat)
-        #logging.debug('refUnit=%s', refUnit)
-        #logging.debug('round(refUnit)=%s', round(refUnit))
+        logging.debug('refUnitFloat=%s', refUnitFloat)
+        logging.debug('refUnit=%s', refUnit)
+        logging.debug('round(refUnit)=%s', round(refUnit))
 
         if refUnit == 0:
             refUnit = 1
